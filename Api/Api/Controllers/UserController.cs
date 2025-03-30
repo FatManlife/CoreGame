@@ -4,6 +4,7 @@ using Api.Identity;
 using Api.Interfaces;
 using Api.Models;
 using Api.Models.DTOs;
+using Api.Validations;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -50,18 +51,21 @@ namespace Api.Controllers
             if(user == null) return NotFound();
 
             if (UserDto.Username == "") UserDto.Username = user.Username;
-            else if (!Regex.IsMatch(UserDto.Username,"^[^\\s]{4,16}$")) return BadRequest( new { message = "Username is Invalid!" });
+            else if(!RegexValidator.Validate("Username",UserDto.Username)) return BadRequest( new { message = "Username is Invalid!" });
             
             if (UserDto.Email == "") UserDto.Email = user.Email;
-            else if(!Regex.IsMatch(UserDto.Email,"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) return BadRequest( new { message = "Email is Invalid!" });
+            else if(!RegexValidator.Validate("Email",UserDto.Email)) return BadRequest( new { message = "Email is Invalid!" });
             
+            var validUser = await _userRepository.GetUserByRegister(UserDto.Username ,UserDto.Email);
+                
+            if(validUser != null) return BadRequest(new {message = "User already exists!" });
             
             if (UserDto.Phone == "") UserDto.Phone = user.Phone;
-            else if(!Regex.IsMatch(UserDto.Phone,@"^\d+$")) return BadRequest( new { message = "Phone is Invalid!" });
+            else if(!RegexValidator.Validate("Phone",UserDto.Phone)) return BadRequest( new { message = "Phone is Invalid!" });
             
-            var updatedUser = await _userRepository.UpdateUser(_mapper.Map(UserDto, user));
+            await _userRepository.UpdateUser(_mapper.Map(UserDto, user));
             
-            return Ok(updatedUser);
+            return Ok(new {message = "User updated successfully!"});
         }
         
         [Authorize(Policy = IdentityData.RoleUserPoliciyName)]
@@ -74,7 +78,7 @@ namespace Api.Controllers
             
             await _userRepository.DeleteUser(user);
 
-            return Ok();
+            return Ok(new {message = "User deleted successfully!"});
         }
         
     }

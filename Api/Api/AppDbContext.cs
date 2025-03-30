@@ -172,6 +172,10 @@ public class AppDbContext:DbContext
             .HasIndex(g => g.Title)
             .IsUnique();
         
+        //Publisher
+        modelBuilder.Entity<Publisher>()
+            .HasIndex(p => p.Name)
+            .IsUnique();
      
     }
 }

@@ -26,6 +26,7 @@
     });
     // Add services to the container.
     builder.Services.AddScoped<IUserRepository, UserRepository>();
+    builder.Services.AddScoped<IPublisherRepository, PublisherRepository>();
 
     builder.Services.AddControllers();
 

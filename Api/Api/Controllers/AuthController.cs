@@ -3,6 +3,7 @@ using Api.Interfaces;
 using Api.Models;
 using Api.Models.DTOs;
 using Api.Services;
+using Api.Validations;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -47,11 +48,11 @@ namespace Api.Controllers
         {
             
             //Validation
-            if(!Regex.IsMatch(registerDto.Username,"^[^\\s]{4,16}$")) return BadRequest( new { message = "Username is Invalid!" });
+            if(!RegexValidator.Validate("Username",registerDto.Username)) return BadRequest( new { message = "Username is Invalid!" });
             
-            if(!Regex.IsMatch(registerDto.Email,"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) return BadRequest( new { message = "Email is Invalid!" });
+            if(!RegexValidator.Validate("Email",registerDto.Email)) return BadRequest( new { message = "Email is Invalid!" });
             
-            if(!Regex.IsMatch(registerDto.Hashed_password,"^.{6,}$")) return BadRequest( new { message = "Password is Invalid!" });
+            if(!RegexValidator.Validate("Password",registerDto.Hashed_password)) return BadRequest( new { message = "Password is Invalid!" });
             
             registerDto.Date_created = DateTime.Now;
             
