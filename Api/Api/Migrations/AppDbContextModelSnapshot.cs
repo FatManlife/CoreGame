@@ -22,7 +22,7 @@ namespace Api.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
-            modelBuilder.Entity("API.Models.Dlc", b =>
+            modelBuilder.Entity("Api.Models.Dlc", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -61,7 +61,7 @@ namespace Api.Migrations
                     b.ToTable("Dlcs");
                 });
 
-            modelBuilder.Entity("API.Models.Game", b =>
+            modelBuilder.Entity("Api.Models.Game", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -102,7 +102,7 @@ namespace Api.Migrations
                     b.ToTable("Games");
                 });
 
-            modelBuilder.Entity("API.Models.Game_ordered", b =>
+            modelBuilder.Entity("Api.Models.Game_ordered", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -128,7 +128,7 @@ namespace Api.Migrations
                     b.ToTable("Games_ordered");
                 });
 
-            modelBuilder.Entity("API.Models.Genre", b =>
+            modelBuilder.Entity("Api.Models.Genre", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -148,7 +148,7 @@ namespace Api.Migrations
                     b.ToTable("Genres");
                 });
 
-            modelBuilder.Entity("API.Models.Image", b =>
+            modelBuilder.Entity("Api.Models.Image", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -179,7 +179,7 @@ namespace Api.Migrations
                     b.ToTable("Images");
                 });
 
-            modelBuilder.Entity("API.Models.Mode", b =>
+            modelBuilder.Entity("Api.Models.Mode", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -199,7 +199,7 @@ namespace Api.Migrations
                     b.ToTable("Modes");
                 });
 
-            modelBuilder.Entity("API.Models.Order", b =>
+            modelBuilder.Entity("Api.Models.Order", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -227,7 +227,7 @@ namespace Api.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("API.Models.Owned_game", b =>
+            modelBuilder.Entity("Api.Models.Owned_game", b =>
                 {
                     b.Property<int>("Game_id")
                         .HasColumnType("int");
@@ -242,7 +242,7 @@ namespace Api.Migrations
                     b.ToTable("Owned_games");
                 });
 
-            modelBuilder.Entity("API.Models.Platform", b =>
+            modelBuilder.Entity("Api.Models.Platform", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -262,7 +262,7 @@ namespace Api.Migrations
                     b.ToTable("Platforms");
                 });
 
-            modelBuilder.Entity("API.Models.Publisher", b =>
+            modelBuilder.Entity("Api.Models.Publisher", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -281,12 +281,15 @@ namespace Api.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<decimal>("Royalty")
+                        .HasColumnType("decimal(65,30)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Publishers");
                 });
 
-            modelBuilder.Entity("API.Models.Replie", b =>
+            modelBuilder.Entity("Api.Models.Replie", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -316,7 +319,7 @@ namespace Api.Migrations
                     b.ToTable("Replies");
                 });
 
-            modelBuilder.Entity("API.Models.Review", b =>
+            modelBuilder.Entity("Api.Models.Review", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -346,24 +349,7 @@ namespace Api.Migrations
                     b.ToTable("Reviews");
                 });
 
-            modelBuilder.Entity("API.Models.Role", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Roles");
-                });
-
-            modelBuilder.Entity("API.Models.Spec", b =>
+            modelBuilder.Entity("Api.Models.Spec", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -408,7 +394,7 @@ namespace Api.Migrations
                     b.ToTable("Specs");
                 });
 
-            modelBuilder.Entity("API.Models.Status", b =>
+            modelBuilder.Entity("Api.Models.Status", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -433,7 +419,7 @@ namespace Api.Migrations
                     b.ToTable("Statuses");
                 });
 
-            modelBuilder.Entity("API.Models.User", b =>
+            modelBuilder.Entity("Api.Models.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -455,11 +441,10 @@ namespace Api.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("varchar(255)");
 
-                    b.Property<string>("Profile_picture")
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("Role_id")
-                        .HasColumnType("int");
+                    b.Property<int>("Role")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(1);
 
                     b.Property<string>("Username")
                         .IsRequired()
@@ -472,8 +457,6 @@ namespace Api.Migrations
 
                     b.HasIndex("Phone")
                         .IsUnique();
-
-                    b.HasIndex("Role_id");
 
                     b.HasIndex("Username")
                         .IsUnique();
@@ -526,9 +509,9 @@ namespace Api.Migrations
                     b.ToTable("GamePlatform");
                 });
 
-            modelBuilder.Entity("API.Models.Dlc", b =>
+            modelBuilder.Entity("Api.Models.Dlc", b =>
                 {
-                    b.HasOne("API.Models.Game", "Game")
+                    b.HasOne("Api.Models.Game", "Game")
                         .WithMany("Dlcs")
                         .HasForeignKey("Game_id")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -537,15 +520,15 @@ namespace Api.Migrations
                     b.Navigation("Game");
                 });
 
-            modelBuilder.Entity("API.Models.Game", b =>
+            modelBuilder.Entity("Api.Models.Game", b =>
                 {
-                    b.HasOne("API.Models.User", "Developer")
+                    b.HasOne("Api.Models.User", "Developer")
                         .WithMany("Games")
                         .HasForeignKey("Developer_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("API.Models.Publisher", "Publisher")
+                    b.HasOne("Api.Models.Publisher", "Publisher")
                         .WithMany("Games")
                         .HasForeignKey("Publisher_id")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -556,15 +539,15 @@ namespace Api.Migrations
                     b.Navigation("Publisher");
                 });
 
-            modelBuilder.Entity("API.Models.Game_ordered", b =>
+            modelBuilder.Entity("Api.Models.Game_ordered", b =>
                 {
-                    b.HasOne("API.Models.Game", "Game")
+                    b.HasOne("Api.Models.Game", "Game")
                         .WithMany("Games_ordered")
                         .HasForeignKey("Game_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("API.Models.Order", "Order")
+                    b.HasOne("Api.Models.Order", "Order")
                         .WithMany("Games_ordered")
                         .HasForeignKey("Order_id")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -575,9 +558,9 @@ namespace Api.Migrations
                     b.Navigation("Order");
                 });
 
-            modelBuilder.Entity("API.Models.Order", b =>
+            modelBuilder.Entity("Api.Models.Order", b =>
                 {
-                    b.HasOne("API.Models.User", "User")
+                    b.HasOne("Api.Models.User", "User")
                         .WithMany("Orders")
                         .HasForeignKey("User_id")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -586,15 +569,15 @@ namespace Api.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("API.Models.Owned_game", b =>
+            modelBuilder.Entity("Api.Models.Owned_game", b =>
                 {
-                    b.HasOne("API.Models.Game", "Game")
+                    b.HasOne("Api.Models.Game", "Game")
                         .WithMany("Owned_games")
                         .HasForeignKey("Game_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("API.Models.User", "User")
+                    b.HasOne("Api.Models.User", "User")
                         .WithMany("Owned_games")
                         .HasForeignKey("User_id")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -605,15 +588,15 @@ namespace Api.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("API.Models.Replie", b =>
+            modelBuilder.Entity("Api.Models.Replie", b =>
                 {
-                    b.HasOne("API.Models.Review", "Review")
+                    b.HasOne("Api.Models.Review", "Review")
                         .WithMany("Replies")
                         .HasForeignKey("Review_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("API.Models.User", "User")
+                    b.HasOne("Api.Models.User", "User")
                         .WithMany("Replies")
                         .HasForeignKey("User_id")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -624,15 +607,15 @@ namespace Api.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("API.Models.Review", b =>
+            modelBuilder.Entity("Api.Models.Review", b =>
                 {
-                    b.HasOne("API.Models.Game", "Game")
+                    b.HasOne("Api.Models.Game", "Game")
                         .WithMany("Reviews")
                         .HasForeignKey("Game_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("API.Models.User", "User")
+                    b.HasOne("Api.Models.User", "User")
                         .WithMany("Reviews")
                         .HasForeignKey("User_id")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -643,9 +626,9 @@ namespace Api.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("API.Models.Spec", b =>
+            modelBuilder.Entity("Api.Models.Spec", b =>
                 {
-                    b.HasOne("API.Models.Game", "Game")
+                    b.HasOne("Api.Models.Game", "Game")
                         .WithMany("Specs")
                         .HasForeignKey("Game_id")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -654,9 +637,9 @@ namespace Api.Migrations
                     b.Navigation("Game");
                 });
 
-            modelBuilder.Entity("API.Models.Status", b =>
+            modelBuilder.Entity("Api.Models.Status", b =>
                 {
-                    b.HasOne("API.Models.Game", "Game")
+                    b.HasOne("Api.Models.Game", "Game")
                         .WithMany("Statuses")
                         .HasForeignKey("Game_id")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -665,26 +648,15 @@ namespace Api.Migrations
                     b.Navigation("Game");
                 });
 
-            modelBuilder.Entity("API.Models.User", b =>
-                {
-                    b.HasOne("API.Models.Role", "Role")
-                        .WithMany("Users")
-                        .HasForeignKey("Role_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Role");
-                });
-
             modelBuilder.Entity("GameGenre", b =>
                 {
-                    b.HasOne("API.Models.Game", null)
+                    b.HasOne("Api.Models.Game", null)
                         .WithMany()
                         .HasForeignKey("GamesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("API.Models.Genre", null)
+                    b.HasOne("Api.Models.Genre", null)
                         .WithMany()
                         .HasForeignKey("GenresId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -693,13 +665,13 @@ namespace Api.Migrations
 
             modelBuilder.Entity("GameMode", b =>
                 {
-                    b.HasOne("API.Models.Game", null)
+                    b.HasOne("Api.Models.Game", null)
                         .WithMany()
                         .HasForeignKey("GamesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("API.Models.Mode", null)
+                    b.HasOne("Api.Models.Mode", null)
                         .WithMany()
                         .HasForeignKey("ModesId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -708,20 +680,20 @@ namespace Api.Migrations
 
             modelBuilder.Entity("GamePlatform", b =>
                 {
-                    b.HasOne("API.Models.Game", null)
+                    b.HasOne("Api.Models.Game", null)
                         .WithMany()
                         .HasForeignKey("GamesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("API.Models.Platform", null)
+                    b.HasOne("Api.Models.Platform", null)
                         .WithMany()
                         .HasForeignKey("PlatformsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("API.Models.Game", b =>
+            modelBuilder.Entity("Api.Models.Game", b =>
                 {
                     b.Navigation("Dlcs");
 
@@ -736,27 +708,22 @@ namespace Api.Migrations
                     b.Navigation("Statuses");
                 });
 
-            modelBuilder.Entity("API.Models.Order", b =>
+            modelBuilder.Entity("Api.Models.Order", b =>
                 {
                     b.Navigation("Games_ordered");
                 });
 
-            modelBuilder.Entity("API.Models.Publisher", b =>
+            modelBuilder.Entity("Api.Models.Publisher", b =>
                 {
                     b.Navigation("Games");
                 });
 
-            modelBuilder.Entity("API.Models.Review", b =>
+            modelBuilder.Entity("Api.Models.Review", b =>
                 {
                     b.Navigation("Replies");
                 });
 
-            modelBuilder.Entity("API.Models.Role", b =>
-                {
-                    b.Navigation("Users");
-                });
-
-            modelBuilder.Entity("API.Models.User", b =>
+            modelBuilder.Entity("Api.Models.User", b =>
                 {
                     b.Navigation("Games");
 

@@ -247,3 +247,14 @@
 /mnt/5aa38d80-2edb-472e-a975-a0137e886bfb/Projects/CORE/Api/Api/bin/Debug/net9.0/tr/Microsoft.CodeAnalysis.Scripting.resources.dll
 /mnt/5aa38d80-2edb-472e-a975-a0137e886bfb/Projects/CORE/Api/Api/bin/Debug/net9.0/zh-Hans/Microsoft.CodeAnalysis.Scripting.resources.dll
 /mnt/5aa38d80-2edb-472e-a975-a0137e886bfb/Projects/CORE/Api/Api/bin/Debug/net9.0/zh-Hant/Microsoft.CodeAnalysis.Scripting.resources.dll
+/mnt/5aa38d80-2edb-472e-a975-a0137e886bfb/Projects/CORE/Api/Api/obj/Debug/net9.0/Api.sourcelink.json
+/mnt/5aa38d80-2edb-472e-a975-a0137e886bfb/Projects/CORE/Api/Api/bin/Debug/net9.0/AutoMapper.dll
+/mnt/5aa38d80-2edb-472e-a975-a0137e886bfb/Projects/CORE/Api/Api/bin/Debug/net9.0/BCrypt.Net-Next.dll
+/mnt/5aa38d80-2edb-472e-a975-a0137e886bfb/Projects/CORE/Api/Api/bin/Debug/net9.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/mnt/5aa38d80-2edb-472e-a975-a0137e886bfb/Projects/CORE/Api/Api/bin/Debug/net9.0/Microsoft.IdentityModel.Abstractions.dll
+/mnt/5aa38d80-2edb-472e-a975-a0137e886bfb/Projects/CORE/Api/Api/bin/Debug/net9.0/Microsoft.IdentityModel.JsonWebTokens.dll
+/mnt/5aa38d80-2edb-472e-a975-a0137e886bfb/Projects/CORE/Api/Api/bin/Debug/net9.0/Microsoft.IdentityModel.Logging.dll
+/mnt/5aa38d80-2edb-472e-a975-a0137e886bfb/Projects/CORE/Api/Api/bin/Debug/net9.0/Microsoft.IdentityModel.Protocols.dll
+/mnt/5aa38d80-2edb-472e-a975-a0137e886bfb/Projects/CORE/Api/Api/bin/Debug/net9.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+/mnt/5aa38d80-2edb-472e-a975-a0137e886bfb/Projects/CORE/Api/Api/bin/Debug/net9.0/Microsoft.IdentityModel.Tokens.dll
+/mnt/5aa38d80-2edb-472e-a975-a0137e886bfb/Projects/CORE/Api/Api/bin/Debug/net9.0/System.IdentityModel.Tokens.Jwt.dll

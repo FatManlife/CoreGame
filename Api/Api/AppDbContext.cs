@@ -19,7 +19,6 @@ public class AppDbContext:DbContext
     public DbSet<Publisher> Publishers { get; set; }
     public DbSet<Replie> Replies { get; set; }
     public DbSet<Review> Reviews { get; set; }  
-    public DbSet<Role> Roles { get; set; }
     public DbSet<Spec> Specs { get; set; }
     public DbSet<Status> Statuses { get; set; }
     public DbSet<User> Users { get; set; }
@@ -146,11 +145,6 @@ public class AppDbContext:DbContext
         
         //User
         modelBuilder.Entity<User>()
-            .HasOne(u => u.Role)
-            .WithMany(u => u.Users)
-            .HasForeignKey(u => u.Role_id)
-            .OnDelete(DeleteBehavior.Cascade);
-        modelBuilder.Entity<User>()
             .HasIndex(u => u.Email)
             .IsUnique();
         modelBuilder.Entity<User>()
@@ -159,6 +153,9 @@ public class AppDbContext:DbContext
         modelBuilder.Entity<User>()
             .HasIndex(p =>p.Phone)
             .IsUnique();
+        modelBuilder.Entity<User>()
+            .Property(u => u.Role)
+            .HasDefaultValue(1);
         
         //Game
         modelBuilder.Entity<Game>()
@@ -174,5 +171,7 @@ public class AppDbContext:DbContext
         modelBuilder.Entity<Game>()
             .HasIndex(g => g.Title)
             .IsUnique();
+        
+     
     }
 }
