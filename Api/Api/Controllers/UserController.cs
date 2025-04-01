@@ -68,7 +68,7 @@ namespace Api.Controllers
             return Ok(new {message = "User updated successfully!"});
         }
         
-        [Authorize(Policy = IdentityData.RoleUserPoliciyName)]
+        [Authorize(Policy = IdentityData.AdminPolicyName)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {

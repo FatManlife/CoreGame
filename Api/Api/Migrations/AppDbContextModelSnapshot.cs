@@ -22,45 +22,6 @@ namespace Api.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
-            modelBuilder.Entity("Api.Models.Dlc", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("File_path")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("Game_id")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(65,30)");
-
-                    b.Property<DateTime>("Publish_date")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Game_id");
-
-                    b.HasIndex("Title")
-                        .IsUnique();
-
-                    b.ToTable("Dlcs");
-                });
-
             modelBuilder.Entity("Api.Models.Game", b =>
                 {
                     b.Property<int>("Id")
@@ -68,6 +29,10 @@ namespace Api.Migrations
                         .HasColumnType("int");
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CoverImage")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -81,10 +46,17 @@ namespace Api.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnType("decimal(10,2)");
 
                     b.Property<int>("Publisher_id")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("ReleaseDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -117,7 +89,7 @@ namespace Api.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnType("decimal(10,2)");
 
                     b.HasKey("Id");
 
@@ -163,18 +135,19 @@ namespace Api.Migrations
                     b.Property<DateTime>("Created_on")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("Entity_id")
+                    b.Property<int>("Game_id")
                         .HasColumnType("int");
-
-                    b.Property<string>("Entity_type")
-                        .IsRequired()
-                        .HasColumnType("longtext");
 
                     b.Property<string>("Image_url")
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<bool>("IsGame")
+                        .HasColumnType("tinyint(1)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("Game_id");
 
                     b.ToTable("Images");
                 });
@@ -215,7 +188,7 @@ namespace Api.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<decimal>("Total_price")
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnType("decimal(10,2)");
 
                     b.Property<int>("User_id")
                         .HasColumnType("int");
@@ -281,8 +254,12 @@ namespace Api.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 
+                    b.Property<string>("PublisherImage")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<decimal>("Royalty")
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnType("decimal(5,2)");
 
                     b.HasKey("Id");
 
@@ -290,66 +267,6 @@ namespace Api.Migrations
                         .IsUnique();
 
                     b.ToTable("Publishers");
-                });
-
-            modelBuilder.Entity("Api.Models.Replie", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime>("Created_on")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("Review_id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("User_id")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Review_id");
-
-                    b.HasIndex("User_id");
-
-                    b.ToTable("Replies");
-                });
-
-            modelBuilder.Entity("Api.Models.Review", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime>("Created_on")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("Game_id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("User_id")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Game_id");
-
-                    b.HasIndex("User_id");
-
-                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("Api.Models.Spec", b =>
@@ -395,31 +312,6 @@ namespace Api.Migrations
                     b.HasIndex("Game_id");
 
                     b.ToTable("Specs");
-                });
-
-            modelBuilder.Entity("Api.Models.Status", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("Game_id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime>("Release_date")
-                        .HasColumnType("datetime(6)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Game_id");
-
-                    b.ToTable("Statuses");
                 });
 
             modelBuilder.Entity("Api.Models.User", b =>
@@ -512,17 +404,6 @@ namespace Api.Migrations
                     b.ToTable("GamePlatform");
                 });
 
-            modelBuilder.Entity("Api.Models.Dlc", b =>
-                {
-                    b.HasOne("Api.Models.Game", "Game")
-                        .WithMany("Dlcs")
-                        .HasForeignKey("Game_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Game");
-                });
-
             modelBuilder.Entity("Api.Models.Game", b =>
                 {
                     b.HasOne("Api.Models.User", "Developer")
@@ -561,6 +442,17 @@ namespace Api.Migrations
                     b.Navigation("Order");
                 });
 
+            modelBuilder.Entity("Api.Models.Image", b =>
+                {
+                    b.HasOne("Api.Models.Game", "Game")
+                        .WithMany("Images")
+                        .HasForeignKey("Game_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Game");
+                });
+
             modelBuilder.Entity("Api.Models.Order", b =>
                 {
                     b.HasOne("Api.Models.User", "User")
@@ -591,59 +483,10 @@ namespace Api.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Api.Models.Replie", b =>
-                {
-                    b.HasOne("Api.Models.Review", "Review")
-                        .WithMany("Replies")
-                        .HasForeignKey("Review_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Api.Models.User", "User")
-                        .WithMany("Replies")
-                        .HasForeignKey("User_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Review");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Api.Models.Review", b =>
-                {
-                    b.HasOne("Api.Models.Game", "Game")
-                        .WithMany("Reviews")
-                        .HasForeignKey("Game_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Api.Models.User", "User")
-                        .WithMany("Reviews")
-                        .HasForeignKey("User_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Game");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Api.Models.Spec", b =>
                 {
                     b.HasOne("Api.Models.Game", "Game")
                         .WithMany("Specs")
-                        .HasForeignKey("Game_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Game");
-                });
-
-            modelBuilder.Entity("Api.Models.Status", b =>
-                {
-                    b.HasOne("Api.Models.Game", "Game")
-                        .WithMany("Statuses")
                         .HasForeignKey("Game_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -698,17 +541,13 @@ namespace Api.Migrations
 
             modelBuilder.Entity("Api.Models.Game", b =>
                 {
-                    b.Navigation("Dlcs");
-
                     b.Navigation("Games_ordered");
+
+                    b.Navigation("Images");
 
                     b.Navigation("Owned_games");
 
-                    b.Navigation("Reviews");
-
                     b.Navigation("Specs");
-
-                    b.Navigation("Statuses");
                 });
 
             modelBuilder.Entity("Api.Models.Order", b =>
@@ -721,11 +560,6 @@ namespace Api.Migrations
                     b.Navigation("Games");
                 });
 
-            modelBuilder.Entity("Api.Models.Review", b =>
-                {
-                    b.Navigation("Replies");
-                });
-
             modelBuilder.Entity("Api.Models.User", b =>
                 {
                     b.Navigation("Games");
@@ -733,10 +567,6 @@ namespace Api.Migrations
                     b.Navigation("Orders");
 
                     b.Navigation("Owned_games");
-
-                    b.Navigation("Replies");
-
-                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }

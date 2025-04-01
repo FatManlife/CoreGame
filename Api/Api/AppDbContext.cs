@@ -7,7 +7,6 @@ public class AppDbContext:DbContext
 {
     public AppDbContext(DbContextOptions<AppDbContext> options):base(options){}
     
-    public DbSet<Dlc> Dlcs { get; set; }
     public DbSet<Game> Games { get; set; }
     public DbSet<Game_ordered> Games_ordered { get; set; }
     public DbSet<Genre> Genres { get; set; }
@@ -17,25 +16,12 @@ public class AppDbContext:DbContext
     public DbSet<Owned_game> Owned_games { get; set; }
     public DbSet<Platform> Platforms { get; set; }
     public DbSet<Publisher> Publishers { get; set; }
-    public DbSet<Replie> Replies { get; set; }
-    public DbSet<Review> Reviews { get; set; }  
     public DbSet<Spec> Specs { get; set; }
-    public DbSet<Status> Statuses { get; set; }
     public DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        
-        //Dlc
-        modelBuilder.Entity<Dlc>()
-            .HasOne(d => d.Game)
-            .WithMany(g => g.Dlcs)
-            .HasForeignKey(d => d.Game_id)
-            .OnDelete(DeleteBehavior.Cascade);
-        modelBuilder.Entity<Dlc>()
-            .HasIndex(d => d.Title)
-            .IsUnique();
         
         //Genre
         modelBuilder.Entity<Game>()
@@ -67,21 +53,6 @@ public class AppDbContext:DbContext
             .WithMany(g => g.Specs)
             .HasForeignKey(s => s.Game_id)
             .OnDelete(DeleteBehavior.Cascade);
-        
-        //Status
-        modelBuilder.Entity<Status>()
-            .HasOne(s => s.Game)
-            .WithMany(g => g.Statuses)
-            .HasForeignKey(s => s.Game_id)
-            .OnDelete(DeleteBehavior.Cascade);
-        modelBuilder.Entity<Status>()
-            .Property(s => s.Name)
-            .HasConversion<string>();
-        
-        //Image
-        modelBuilder.Entity<Image>()
-            .Property(i => i.Entity_type)
-            .HasConversion<string>();
         
         //Game_ordered
         modelBuilder.Entity<Game_ordered>()
@@ -119,30 +90,6 @@ public class AppDbContext:DbContext
             .HasForeignKey(g => g.User_id)
             .OnDelete(DeleteBehavior.Cascade);
         
-        //Replie
-        modelBuilder.Entity<Replie>()
-            .HasOne(r => r.User)
-            .WithMany(u => u.Replies)
-            .HasForeignKey(r => r.User_id)
-            .OnDelete(DeleteBehavior.Cascade);
-        modelBuilder.Entity<Replie>()
-            .HasOne(r => r.Review)
-            .WithMany(u => u.Replies)
-            .HasForeignKey(r => r.Review_id)
-            .OnDelete(DeleteBehavior.Cascade);
-        
-        //Reviews
-        modelBuilder.Entity<Review>()
-            .HasOne(r => r.User)
-            .WithMany(u => u.Reviews)
-            .HasForeignKey(r => r.User_id)
-            .OnDelete(DeleteBehavior.Cascade);
-        modelBuilder.Entity<Review>()
-            .HasOne(r => r.Game)
-            .WithMany(g => g.Reviews)
-            .HasForeignKey(r => r.Game_id)
-            .OnDelete(DeleteBehavior.Cascade);
-        
         //User
         modelBuilder.Entity<User>()
             .HasIndex(u => u.Email)
@@ -177,5 +124,11 @@ public class AppDbContext:DbContext
             .HasIndex(p => p.Name)
             .IsUnique();
      
+        //Image
+        modelBuilder.Entity<Image>()
+            .HasOne(i => i.Game)
+            .WithMany(g => g.Images)
+            .HasForeignKey(i => i.Game_id)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

@@ -22,7 +22,7 @@ namespace Api.Controllers
             _mapper = mapper;
         }
         
-        [Authorize(Policy = IdentityData.RoleUserPoliciyName)]
+        [Authorize(Policy = IdentityData.AdminPolicyName)]
         [HttpPost]
         public async Task<IActionResult> CreatePublisher([FromBody]PublisherDto publisherDto)
         {
@@ -64,7 +64,7 @@ namespace Api.Controllers
             return Ok(publisher);
         }
 
-        [Authorize(Policy = IdentityData.RoleUserPoliciyName)]
+        [Authorize(Policy = IdentityData.AdminPolicyName)]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdatePublisher(int id, [FromBody] PublisherDto publisherDto)
         {
@@ -91,7 +91,7 @@ namespace Api.Controllers
             return Ok(new {message = "Publisher updated successfully!"});
         }
 
-        [Authorize(Policy = IdentityData.RoleUserPoliciyName)]
+        [Authorize(Policy = IdentityData.AdminPolicyName)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePublisher(int id)
         {

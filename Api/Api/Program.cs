@@ -10,9 +10,15 @@
     using AutoMapper;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.IdentityModel.Tokens;
+    using Newtonsoft.Json.Converters;
 
     var builder = WebApplication.CreateBuilder(args);
 
+    builder.Services.AddControllers().AddNewtonsoftJson(options =>
+    {
+        options.SerializerSettings.Converters.Add(new StringEnumConverter());
+    });
+    
     builder.Services.AddCors(options =>
     {
         options.AddPolicy("AllowReactApp",
@@ -27,6 +33,8 @@
     // Add services to the container.
     builder.Services.AddScoped<IUserRepository, UserRepository>();
     builder.Services.AddScoped<IPublisherRepository, PublisherRepository>();
+    builder.Services.AddScoped<IGameRepository, GameRepository>();
+    builder.Services.AddScoped<IDetailsGameRepository, DetailsGameRepository>();
 
     builder.Services.AddControllers();
 
@@ -58,8 +66,10 @@
 
     builder.Services.AddAuthorization(options =>
     {
-        options.AddPolicy(IdentityData.RoleUserPoliciyName, p =>
+        options.AddPolicy(IdentityData.AdminPolicyName, p =>
             p.RequireClaim(IdentityData.RoleUserClaimName, "admin"));
+        options.AddPolicy(IdentityData.DeveloperPolicyName, p =>
+            p.RequireClaim(IdentityData.RoleUserClaimName, "developer"));
     });
     
     builder.Services.AddAuthentication();

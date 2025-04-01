@@ -6,4 +6,5 @@ public class PublisherDto
     public string Name { get; set; }
     public DateTime? Created_on { get; set; }
     public string Description { get; set; }
+    public string? Image { get; set; }
 }

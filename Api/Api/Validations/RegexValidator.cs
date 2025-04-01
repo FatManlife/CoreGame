@@ -9,6 +9,7 @@ public class RegexValidator
         { "Username", @"^[^\s]{4,16}$" },
         { "Email", @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" },
         { "Phone", @"^\d{10}$" },
+        { "Number", @"^\d+$" },
         { "Password", @"^.{6,}$" }
     };
 

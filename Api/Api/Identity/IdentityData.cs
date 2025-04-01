@@ -3,5 +3,6 @@ namespace Api.Identity;
 public class IdentityData
 {
     public const string RoleUserClaimName = "Role";
-    public const string RoleUserPoliciyName = "role";
+    public const string AdminPolicyName = "role";
+    public const string DeveloperPolicyName = "role";
 }

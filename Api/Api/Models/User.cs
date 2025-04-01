@@ -13,7 +13,5 @@ public class User
     public ICollection<Owned_game> Owned_games { get; set; }
     public ICollection<Game> Games { get; set; }
     public ICollection<Order> Orders { get; set; }
-    public ICollection<Review> Reviews { get; set; }
-    public ICollection<Replie> Replies { get; set; }
     
 }
