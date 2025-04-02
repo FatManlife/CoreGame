@@ -31,11 +31,11 @@ namespace Api.Controllers
         public async Task<ActionResult> Login([FromBody] LoginDto loginDto)
         {
             
-            if(string.IsNullOrEmpty(loginDto.Email) || string.IsNullOrEmpty(loginDto.Password)) return Unauthorized() ;
+            if(string.IsNullOrEmpty(loginDto.Email) || string.IsNullOrEmpty(loginDto.Password)) return NotFound() ;
 
             var user = await _userRepository.GetUserByEmail(loginDto.Email);
             
-            if(user == null || !BCrypt.Net.BCrypt.Verify(loginDto.Password, user.Hashed_password)) return Unauthorized();
+            if(user == null || !BCrypt.Net.BCrypt.Verify(loginDto.Password, user.Hashed_password)) return NotFound();
 
             var authToken = _jwtService.CreateCookie(user);
             

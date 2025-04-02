@@ -2,20 +2,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Api.Models;
 
-public enum OrderStatus
-{
-    Pending,
-    Accepted,
-    Declined
-}
-
 public class Order
 {
     public int Id { get; set; }
     public int User_id { get; set; }
     [Column(TypeName = "decimal(10,2)")]
     public decimal Total_price { get; set; }
-    public OrderStatus Status { get; set; }
     public DateTime Created_on { get; set; }
     
     public User User { get; set; }

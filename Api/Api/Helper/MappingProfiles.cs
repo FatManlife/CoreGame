@@ -19,13 +19,13 @@ public class MappingProfiles : Profile
             .ForMember(dest => dest.GenreNames, opt => opt.MapFrom(src => src.Genres.Select(g => g.Name)))
             .ForMember(dest => dest.ModeNames, opt => opt.MapFrom(src => src.Modes.Select(m => m.Name)))
             .ForMember(dest => dest.PlatformNames, opt => opt.MapFrom(src => src.Platforms.Select(p => p.Name)))
-            .ForMember(dest => dest.Developer, opt => opt.MapFrom(src => src.Developer.Username))  
+            .ForMember(dest => dest.DeveloperName, opt => opt.MapFrom(src => src.Developer.Username))  
             .ForMember(dest => dest.PublisherName, opt => opt.MapFrom(src => src.Publisher.Name));
         CreateMap<SpecDto,Spec>()
             .ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null));
+        CreateMap<Spec, SpecDto>();
         CreateMap<ImageGameDto, Image>();
         CreateMap<Image,ImageGameDto>();
         CreateMap<UpdateGameDto, Game>();
-
     }
 }

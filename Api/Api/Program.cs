@@ -35,6 +35,7 @@
     builder.Services.AddScoped<IPublisherRepository, PublisherRepository>();
     builder.Services.AddScoped<IGameRepository, GameRepository>();
     builder.Services.AddScoped<IDetailsGameRepository, DetailsGameRepository>();
+    builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
     builder.Services.AddControllers();
 
@@ -70,6 +71,8 @@
             p.RequireClaim(IdentityData.RoleUserClaimName, "admin"));
         options.AddPolicy(IdentityData.DeveloperPolicyName, p =>
             p.RequireClaim(IdentityData.RoleUserClaimName, "developer"));
+        options.AddPolicy(IdentityData.CustomerPolicyName, p =>
+            p.RequireClaim(IdentityData.RoleUserClaimName, "customer"));
     });
     
     builder.Services.AddAuthentication();

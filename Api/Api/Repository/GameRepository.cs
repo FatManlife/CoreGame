@@ -13,11 +13,19 @@ public class GameRepository: IGameRepository
         _context = context;
     }
 
-    public async Task<ICollection<Game>> GetAllGames()
+    public async Task<ICollection<Game>> GetGames()
     {
-        return await _context.Games.ToListAsync();
+        return await _context.Games.
+            Include(u => u.Developer)
+            .Include(u => u.Genres)
+            .Include(g => g.Platforms)
+            .Include(g => g.Publisher)
+            .Include(g => g.Modes)
+            .Include(g => g.Images)
+            .Include(g => g.Specs)
+            .ToListAsync();
     }
-
+    
     public async Task<Game> GetGameById(int id)
     {
         return await _context.Games
@@ -26,6 +34,8 @@ public class GameRepository: IGameRepository
             .Include(g => g.Platforms)
             .Include(g => g.Publisher)
             .Include(g => g.Modes)
+            .Include(g => g.Images)
+            .Include(g => g.Specs)
             .FirstOrDefaultAsync(g => g.Id == id);
     }
 
@@ -51,5 +61,10 @@ public class GameRepository: IGameRepository
     {
         _context.Games.Remove(game);
         return _context.SaveChangesAsync();
+    }
+
+    public async Task<ICollection<Game>> GetGamesById(List<int> gameIds)
+    {
+        return await _context.Games.Where(g => gameIds.Contains(g.Id)).ToListAsync();
     }
 }

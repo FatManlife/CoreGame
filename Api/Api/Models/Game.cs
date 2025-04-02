@@ -18,10 +18,10 @@ public class Game
     public string File_path { get; set; }
     
     public ICollection<Owned_game> Owned_games { get; set; }
+    public ICollection<Game_ordered> Games_ordered { get; set; }
     public User Developer { get; set; }
     public ICollection<Genre> Genres { get; set; }
     public ICollection<Mode> Modes { get; set; }
-    public ICollection<Game_ordered> Games_ordered { get; set; }
     public ICollection<Platform> Platforms { get; set; }
     public Publisher Publisher { get; set; }
     public ICollection<Spec> Specs { get; set; }

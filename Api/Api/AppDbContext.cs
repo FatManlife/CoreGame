@@ -72,9 +72,6 @@ public class AppDbContext:DbContext
             .WithMany(o => o.Orders)
             .HasForeignKey(o => o.User_id)
             .OnDelete(DeleteBehavior.Cascade);
-        modelBuilder.Entity<Order>()
-            .Property(o => o.Status)
-            .HasConversion<string>();
         
         //Owned_games
         modelBuilder.Entity<Owned_game>()

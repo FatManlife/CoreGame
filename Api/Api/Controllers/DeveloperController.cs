@@ -81,10 +81,16 @@ namespace Api.Controllers
             game.Platforms = await _detailsGameRepository.getPlatforms(addGameDto.PlatformsId);
             game.Images = _mapper.Map<List<Image>>(addGameDto.Images);
             game.Specs = currentSpecs;
+            game.Price = addGameDto.Price + PublisherId.Royalty;
             
             foreach (var spec in game.Specs)
             {
                 spec.Game_id = game.Id;
+            }
+            foreach(var image in game.Images)
+            {
+                image.Game_id = game.Id;   
+                image.IsGame = true;
             }
             
             await _gameRepository.CreateGame(game);
@@ -111,8 +117,6 @@ namespace Api.Controllers
             
             if(updateGameDto.Price > 0) game.Price = (decimal)updateGameDto.Price;
             
-            if(!String.IsNullOrWhiteSpace(updateGameDto.File_path)) game.File_path = updateGameDto.File_path;
-                
             string status;
             switch (updateGameDto.Status)
             {
@@ -160,11 +164,13 @@ namespace Api.Controllers
 
             // Add image
             if (String.IsNullOrWhiteSpace(imageGameDto.Image_url)) return BadRequest(new { message = "Invalid Image" });
-
-            imageGameDto.Game_id = gameId;
-            imageGameDto.Created_on = DateTime.Now;
             
-            await _detailsGameRepository.AddImage(_mapper.Map<Image>(imageGameDto));
+            var newImage = _mapper.Map<Image>(imageGameDto);
+            newImage.Game_id = game.Id;
+            newImage.Created_on = DateTime.Now;
+            newImage.IsGame = true;
+            
+            await _detailsGameRepository.AddImage(newImage);
 
             return NoContent();
         }

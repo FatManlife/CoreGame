@@ -4,7 +4,6 @@ public class UpdateGameDto
 {
     public string? Description { get; set; }
     public decimal? Price { get; set; }
-    public string? File_path { get; set; }
     public int? Status { get; set; }
     public string? CoverImage { get; set; }
     
